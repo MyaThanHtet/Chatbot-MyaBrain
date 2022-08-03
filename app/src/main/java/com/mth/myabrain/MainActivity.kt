@@ -7,6 +7,7 @@
 
 package com.mth.myabrain
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mth.myabrain.adapter.ChatRecyclerAdapter
 import com.mth.myabrain.model.ChatModel
 import com.mth.myabrain.model.MessageModel
-import com.mth.myabrain.retrofit.RetrofitBulider
+import com.mth.myabrain.retrofit.RetrofitBuilder
 import com.mth.myabrain.retrofit.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,33 +64,34 @@ class MainActivity : AppCompatActivity() {
                     applicationContext,
                     "Please enter your message..",
                     Toast.LENGTH_SHORT
-                ).show();
+                ).show()
 
             } else {
-                sendMessage(userMsgEdt.text.toString());
+                sendMessage(userMsgEdt.text.toString())
 
-                userMsgEdt.setText("");
+                userMsgEdt.setText("")
             }
 
 
         }
 
 
-        chatRecyclerAdapter = ChatRecyclerAdapter(messageModelModalArrayList, this)
+        chatRecyclerAdapter = ChatRecyclerAdapter(messageModelModalArrayList)
         val linearLayoutManager =
             LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
         chatsRecyclerViwe.layoutManager = linearLayoutManager
         chatsRecyclerViwe.adapter = chatRecyclerAdapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun sendMessage(userMsg: String) {
         messageModelModalArrayList.add(ChatModel(userMsg, USER_KEY))
         chatRecyclerAdapter.notifyDataSetChanged()
-        var url =
+        val url =
             "http://api.brainshop.ai/get?bid=162431&key=k3wHupdOOCVidgiE&uid=[uid]&msg=$userMsg"
 
 
-        val retrofit = RetrofitBulider.buildService(RetrofitClient::class.java)
+        val retrofit = RetrofitBuilder.buildService(RetrofitClient::class.java)
         retrofit.getMessage(url)
             .enqueue(
                 object : Callback<MessageModel> {
@@ -110,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                             messageModelModalArrayList.add(ChatModel(model.cnt, BOT_KEY))
                             chatRecyclerAdapter.notifyDataSetChanged()
 
-                            Log.i(MainActivity::class.simpleName, "${model.cnt}")
+                            Log.i(MainActivity::class.simpleName, model.cnt)
 
                         }
 

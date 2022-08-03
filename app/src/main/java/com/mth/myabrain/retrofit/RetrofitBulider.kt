@@ -13,12 +13,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-object RetrofitBulider {
+object RetrofitBuilder {
     private val client = OkHttpClient.Builder().build()
-    var gson = GsonBuilder()
+    private var gson = GsonBuilder()
         .setLenient()
-        .create()
-    val BASE_URL="http://api.brainshop.ai/"
+        .create()!!
+    private const val BASE_URL="http://api.brainshop.ai/"
     /* retrofit with GsonConverterFactory*/
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
