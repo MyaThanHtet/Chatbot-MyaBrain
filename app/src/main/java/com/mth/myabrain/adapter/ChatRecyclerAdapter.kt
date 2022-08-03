@@ -19,7 +19,6 @@ import com.mth.myabrain.model.ChatModel
 
 class ChatRecyclerAdapter(
     private val messageModelModalArrayList: ArrayList<ChatModel>,
-    private val context: Context
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
